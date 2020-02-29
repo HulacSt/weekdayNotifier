@@ -1,6 +1,7 @@
 import smtplib, ssl
 import datetime
 import secrets
+import unittest
 
 # get the email list from a text file
 def get_emails(file):
@@ -16,7 +17,7 @@ def send_email(subject, body, recipient):
     password = secrets.pwd # from secrets.py
     sender = secrets.un
     context = ssl.create_default_context()
-    msg = f"Subject: {subject}\n\n{body}"
+    msg = "Subject: {subject}\n\n{body}".format(subject = subject, body = body)
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(sender, password)
         # Send email here
