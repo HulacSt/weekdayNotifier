@@ -1,32 +1,39 @@
-import smtplib, ssl
+import smtplib
+import ssl
 import datetime
 import secrets
-import unittest
-
+import sys
 # get the email list from a text file
-def get_emails(file):
-    emailFile = open(file, 'r')
-    emails = emailFile.readlines()
+
+
+def get_emails():
+    if len(sys.argv) != 2:
+        raise ValueError('Please provide email-id to send the email.')
+    file = sys.argv[1]
+    emailfile = open(file, 'r')
+    emails = emailfile.readlines()
     emails = [l.strip('\n\r') for l in emails]
-    emailFile.close()
-    return(emails)
+    emailfile.close()
+    return emails
 
 
 def send_email(subject, body, recipient):
     port = 465  # For SSL
-    password = secrets.pwd # from secrets.py
+    password = secrets.pwd  # from secrets.py
     sender = secrets.un
     context = ssl.create_default_context()
-    msg = "Subject: {subject}\n\n{body}".format(subject = subject, body = body)
+    msg = "Subject: {subject}\n\n{body}".format(subject=subject, body=body)
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(sender, password)
         # Send email here
         server.sendmail(sender, recipient, msg)
 
+
 # get current weekday as string
 def get_weekday():
     nw = datetime.datetime.now()
-    return(nw.strftime("%A"))
+    return nw.strftime("%A")
+
 
 # create weekday proclamation
 def weekday_proclamation():
@@ -39,16 +46,18 @@ def weekday_proclamation():
         b = "Happy " + wd + "."
     out.append(s)
     out.append(b)
-    return(out)
+    return out
+
 
 # to send the weekday proclamation
 def email_weekday(recip):
     w = weekday_proclamation()
     for r in recip:
-        send_email(subject = w[0],
-                   body = w[1],
-                   recipient = r)
+        send_email(subject=w[0],
+                   body=w[1],
+                   recipient=r)
 
-recips = get_emails('recipients.txt')
+
+recips = get_emails()
 
 email_weekday(recips)
