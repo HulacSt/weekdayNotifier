@@ -4,13 +4,15 @@ import datetime
 import secrets
 import sys
 # get the email list from a text file
+import argparse
 
 
 def get_emails():
-    if len(sys.argv) != 2:
-        raise ValueError('Please provide email-id to send the email.')
-    file = sys.argv[1]
-    emailfile = open(file, 'r')
+    parser = argparse.ArgumentParser(description="Select a file with recipient emails")
+    parser.add_argument('--file', dest='file', action='store', default="",
+                        help="enter a file name to parse")
+    args = parser.parse_args()
+    emailfile = open(args.file, 'r')
     emails = emailfile.readlines()
     emails = [l.strip('\n\r') for l in emails]
     emailfile.close()
