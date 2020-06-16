@@ -2,6 +2,7 @@ import smtplib
 import ssl
 import datetime
 import secrets
+import national_days
 import sys
 # get the email list from a text file
 import argparse
@@ -40,14 +41,14 @@ def get_weekday():
 # create weekday proclamation
 def weekday_proclamation():
     wd = get_weekday()
-    out = []
     s = "It's " + wd + "."
     if wd == 'Friday':
         b = "Happy " + wd + "!!!"
     else:
         b = "Happy " + wd + "."
-    out.append(s)
-    out.append(b)
+    nds = national_days.format_national_days()
+    body = nds + "\n\n" + b
+    out = [s,body]
     return out
 
 
@@ -61,5 +62,4 @@ def email_weekday(recip):
 
 
 recips = get_emails()
-
 email_weekday(recips)
