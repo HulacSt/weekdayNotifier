@@ -13,7 +13,7 @@ def get_national_days():
     today = get_today()
     # today = '2020-06-16'
     nd = []
-    with open('national_days.csv',newline='') as csvfile:
+    with open('/opt/scripts/weekdayNotifier/national_days.csv',newline='') as csvfile:
         dates = list(csv.reader(csvfile))
         for l in dates:
             if l[2] == today:
