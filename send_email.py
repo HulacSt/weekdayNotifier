@@ -47,7 +47,10 @@ def weekday_proclamation():
     else:
         b = "Happy " + wd + "."
     nds = national_days.format_national_days()
-    body = nds + "\n\n" + b
+    if nds:
+        body = nds + "\n\n" + b
+    else:
+        body = "\n" + b
     out = [s,body]
     return out
 
